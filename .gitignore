@@ -1,0 +1,6 @@
+Session.vim
+cscope.out
+stall
+*.o
+*.sw?
+
