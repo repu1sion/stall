@@ -22,7 +22,7 @@ void stall_reset();
 void dead_part_create(int, int);
 void stall_objects_clear();
 
-char *version = "0.82";
+char *version = "0.82a";
 
 global_t global;
 player_ship_t *player_ship; 
@@ -575,11 +575,12 @@ void wave_live()
 		{
 			phase_start = 1;
 			global.phase++;
-			debug("phase: %u \n", global.phase);
+			debug("phase: %u/%d. duration: %d sec, enemy freq: %d ms\n",
+			 	global.phase, WAVE_PHASES, waves[global.wave].phases[global.phase][0],
+				 waves[global.wave].phases[global.phase][1]);
 		}
 	}
 }
-
 
 /* check every second - is it time to create new bonus */
 void bonus_creator()
@@ -1593,17 +1594,17 @@ void waves_init()
 	waves[1].enemy_height = 32;
 	waves[1].dead_parts_num = 4;	
 	waves[1].phases[0][0] = 10;
-	waves[1].phases[0][1] = 3000;
+	waves[1].phases[0][1] = 2000;
 	waves[1].phases[1][0] = 10;
-	waves[1].phases[1][1] = 2500;
+	waves[1].phases[1][1] = 1500;
 	waves[1].phases[2][0] = 10;
-	waves[1].phases[2][1] = 2300;
+	waves[1].phases[2][1] = 1300;
 	waves[1].phases[3][0] = 10;
-	waves[1].phases[3][1] = 2200;
+	waves[1].phases[3][1] = 1000;
 	waves[1].phases[4][0] = 10;
-	waves[1].phases[4][1] = 2100;
+	waves[1].phases[4][1] = 500;
 	waves[1].phases[5][0] = 10;
-	waves[1].phases[5][1] = 1500;
+	waves[1].phases[5][1] = 300;
 	waves[1].player_bullets_color = 0x00FF00FF;
 
 	waves[2].enemy_speed = 5;
