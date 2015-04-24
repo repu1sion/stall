@@ -46,6 +46,22 @@ static void ai_move(int i)
 			enemy_ship[i].crd.y2 += enemy_ship[i].speed;
 			break;
 		}
+		case MOVE_KAMIKAZE: //move on both x and y axis at same time
+		{
+			if (enemy_ship[i].crd.x1 > player_ship->crd.x1)
+			{
+				enemy_ship[i].crd.x1 -= enemy_ship[i].speed;
+				enemy_ship[i].crd.x2 -= enemy_ship[i].speed;
+			}
+			else
+			{
+				enemy_ship[i].crd.x1 += enemy_ship[i].speed;
+				enemy_ship[i].crd.x2 += enemy_ship[i].speed;
+			}
+			enemy_ship[i].crd.y1 += enemy_ship[i].speed;
+			enemy_ship[i].crd.y2 += enemy_ship[i].speed;
+		}
+
 		default:
 			break;
 	}
@@ -128,6 +144,7 @@ static void ai_move_direction(int i)
 			break;
 		}
 
+
 		default:
 			break;
 	}
@@ -136,34 +153,32 @@ static void ai_move_direction(int i)
 
 static void ai_new_move(int i)
 {
-	switch (enemy_ship[i].mental)
+	switch (enemy_ship[i].mental) //XXX - add 2 more mentalities here
 	{
-/*
 		case MENTAL_AGGRESSIVE:
 		{
-			goal_x = player_ship->x1;
-			goal_y = player_ship->y1;
+			goal_x = player_ship->crd.x1;
+			goal_y = player_ship->crd.y1;
+			enemy_ship[i].goal_x = player_ship->crd.x1;
+			enemy_ship[i].goal_y = player_ship->crd.y1;
+			enemy_ship[i].move = MOVE_KAMIKAZE;
 			break;
 		}	
-*/
-		case MENTAL_MIDDLE: default:
+		case MENTAL_MIDDLE:
 		{
 			ai_move_direction(i);
 			break;
 		}
-/*
 		default:
+		{
+			ai_move_direction(i);
 			break;
-*/
+		}
 	}
 	/* now ai has action to do */
 	enemy_ship[i].in_action = 1;
 
-/*
-		debug("ai_new_move. i %d, goal_x %d \n",
-		i,enemy_ship[i].goal_x);
-*/
-	
+	//debug("ai_new_move. i %d, goal_x %d \n", i, enemy_ship[i].goal_x);
 }
 
 /* this is the most important function.
@@ -177,7 +192,7 @@ static void ai_decision(int i)
 	}
 	if (!enemy_ship[i].in_action)
 	{
-		ai_look_at_player(i);
+		ai_look_at_player(i); //XXX - not used
 		ai_new_move(i);
 		ai_move(i);
 	}

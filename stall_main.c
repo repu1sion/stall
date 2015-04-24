@@ -22,7 +22,7 @@ void stall_reset();
 void dead_part_create(int, int);
 void stall_objects_clear();
 
-char *version = "0.82a";
+char *version = "0.83";
 
 global_t global;
 player_ship_t *player_ship; 
@@ -500,8 +500,8 @@ void stall_enemy_ship_creator()
 			}
 		}
 		global.enemies_alive++;
-		debug("enemy created. alive: %u, speed %u \n",
-			 global.enemies_alive,enemy_ship[i].speed);
+		debug("enemy created. alive: %u, speed %u, mental %d \n",
+			 global.enemies_alive, enemy_ship[i].speed, enemy_ship[i].mental);
 	}
 }
 
@@ -509,7 +509,6 @@ void wave_inc()
 {
 	global.wave++;
 }
-
 
 /* called once when wave is ended */
 void wave_end()

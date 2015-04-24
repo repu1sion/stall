@@ -61,7 +61,8 @@ enum move_t
 	MOVE_RIGHT,
 	MOVE_LEFT,
 	MOVE_UP,
-	MOVE_DOWN
+	MOVE_DOWN,
+	MOVE_KAMIKAZE
 };
 
 enum bullet_type_t
