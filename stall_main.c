@@ -22,7 +22,7 @@ void stall_reset();
 void dead_part_create(int, int);
 void stall_objects_clear();
 
-char *version = "0.83";
+char *version = "0.83a";
 
 global_t global;
 player_ship_t *player_ship; 
@@ -546,8 +546,11 @@ void wave_live()
 	/* switch to STATE_WAVEEND or not */
 	if (cur_time - waves[global.wave].start_time > waves[global.wave].duration)
 	{
-		wave_end();
-		return;
+		if (player_ship->alive)
+		{
+			wave_end();
+			return;
+		}
 	}
 
 	/* phase init - do it just once per phase */
@@ -1601,9 +1604,9 @@ void waves_init()
 	waves[1].phases[3][0] = 10;
 	waves[1].phases[3][1] = 1000;
 	waves[1].phases[4][0] = 10;
-	waves[1].phases[4][1] = 500;
+	waves[1].phases[4][1] = 800;
 	waves[1].phases[5][0] = 10;
-	waves[1].phases[5][1] = 300;
+	waves[1].phases[5][1] = 500;
 	waves[1].player_bullets_color = 0x00FF00FF;
 
 	waves[2].enemy_speed = 5;

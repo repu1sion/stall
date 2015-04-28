@@ -379,7 +379,7 @@ void render_label_lose()
 
 void render_player()
 {
-	Uint32 color = 0xFF0000FF; //TODO - replace with sprites
+	Uint32 color = CLR_RED;
 	int x1,y1;
 	SDL_Rect src, dest;
 	static u8 even = 0;

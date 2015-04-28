@@ -104,8 +104,8 @@
 #define DEAD_PART_COST 10
 #define BULLET_COST 1
 
-
-
+/* colors */
+#define CLR_RED 0xFF0000FF
 #define ENEMY_COLOR 0x00FF00FF
 #define BG_COLOR 0x000000FF
 
