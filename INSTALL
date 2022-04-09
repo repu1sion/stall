@@ -1,0 +1,16 @@
+Installation
+------------
+
+To install using the GNU Build System method, just open a terminal and
+type the following commands:
+
+	username@host: dir $ git clone https://github.com/repu1sion/stall.git stall
+	username@host: dir $ cd stall
+	username@host: stall $ ./configure --prefix=/usr/local
+	username@host: stall $ make
+	[ become superuser if needed ]
+	username@host: stall $ make install-strip
+
+In order to compile this game you will need SDL headers and libs, more specifically
+libSDL, libSDL_gfx, libSDL_ttf and libSDL_image, so make sure you got those
+requirements before run "make". Otherwise, compilation will fail.

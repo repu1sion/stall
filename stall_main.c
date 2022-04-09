@@ -12,13 +12,14 @@
 #include "stall_ini.h"
 #include "stall_ai.h"
 #include "stall_render.h"
+#include "stall.h"
 
 void wave_inc();
 void wave_end();
 void stall_quit();
 void stall_player_shot();
 void stall_inc_score(unsigned int);
-void stall_reset();
+int stall_reset();
 void dead_part_create(int, int);
 void stall_objects_clear();
 
@@ -225,7 +226,6 @@ void stall_kill_enemy(int ship_num)
 /* enemy gets crushed by player_ship - no dead parts created */
 void stall_krash_enemy(int ship_num)
 {
-	int i;
 	if (enemy_ship[ship_num].alive)
 	{
 		enemy_ship[ship_num].alive = 0;
@@ -337,7 +337,7 @@ void bonus_aim_target(int num)
 	int base_x = player_ship->crd.x1 + PLAYER_WIDTH/2;
 	int base_y = player_ship->crd.y1;
 	/* enemy coord */
-	int cur_target_pts, cur_target_num;
+	int cur_target_pts;
 	int target_pts = BONUS_AIM_ERRVALUE, target_num = BONUS_AIM_ERRVALUE;
 
 	for (i = 0; i < MAX_ENEMIES; i++)
@@ -1665,12 +1665,12 @@ int stall_init()
 		rv = -1;
 		goto err;
 	}
-	font[0] = TTF_OpenFont("courbd.ttf",12);
-	font[1] = TTF_OpenFont("courbd.ttf",14);
-	font[2] = TTF_OpenFont("courbd.ttf",16);
-	font[3] = TTF_OpenFont("courbd.ttf",18);
-	font[4] = TTF_OpenFont("courbd.ttf",20);
-	if (!font)
+	font[0] = TTF_OpenFont("/usr/local/share/stall/fonts/courbd.ttf",12);
+	font[1] = TTF_OpenFont("/usr/local/share/stall/fonts/courbd.ttf",14);
+	font[2] = TTF_OpenFont("/usr/local/share/stall/fonts/courbd.ttf",16);
+	font[3] = TTF_OpenFont("/usr/local/share/stall/fonts/courbd.ttf",18);
+	font[4] = TTF_OpenFont("/usr/local/share/stall/fonts/courbd.ttf",20);
+	if (!font[0])
 	{
 		rv = 2;
 		goto err;
@@ -1681,17 +1681,21 @@ int stall_init()
 	return rv;
 err:
 	error("stall_init(): %d \n", rv);
-	stall_quit();	
+	stall_quit();
+
+	return 0;
 }
 
 /* save hi-score, reset this game and start a new one */
-void stall_reset()
+int stall_reset()
 {
 	if (global.score > global.hi_score)
 		global.hi_score = global.score;
 	global.state = STATE_MENU;
 	stall_objects_init();
 	bonus_init();
+
+	return 0;
 }
 
 
