@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include "stall_ini.h"
 #include "stall_types.h"
+#include "stall.h"
 
 extern global_t global;
 extern TTF_Font *font[5];
@@ -80,48 +81,46 @@ SDL_Surface *load_pic_alpha(char *filename)
 /* load all pics */
 void load_pictures()
 {
-	int i;
-
-	sur_logo = load_pic("img/stall_logo.png");
-	sur_wave1 = load_pic("img/wave1.png");
-	sur_wave2 = load_pic("img/wave2.png");
-	sur_wave3 = load_pic("img/wave3.png");
-	sur_wave_cleared = load_pic("img/wave_cleared.png");
-	sur_sprites = load_pic("img/sprites1.png");
-	sur_enemy = load_pic("img/enemy48x39.png");
-	sur_enemy_bullet = load_pic("img/blue_bullet.png");
+	sur_logo = load_pic("/usr/local/share/stall/img/stall_logo.png");
+	sur_wave1 = load_pic("/usr/local/share/stall/img/wave1.png");
+	sur_wave2 = load_pic("/usr/local/share/stall/img/wave2.png");
+	sur_wave3 = load_pic("/usr/local/share/stall/img/wave3.png");
+	sur_wave_cleared = load_pic("/usr/local/share/stall/img/wave_cleared.png");
+	sur_sprites = load_pic("/usr/local/share/stall/img/sprites1.png");
+	sur_enemy = load_pic("/usr/local/share/stall/img/enemy48x39.png");
+	sur_enemy_bullet = load_pic("/usr/local/share/stall/img/blue_bullet.png");
 
 	/* load bgs into wave_t objects */
-	waves[0].bg = load_pic("img/bg_wave1.png");
-	waves[1].bg = load_pic("img/bg_wave2.png");
-	waves[2].bg = load_pic("img/bg_wave3.png");
-	waves[3].bg = load_pic("img/bg_wave4.png");
-	waves[4].bg = load_pic("img/bg_wave5.png");
+	waves[0].bg = load_pic("/usr/local/share/stall/img/bg_wave1.png");
+	waves[1].bg = load_pic("/usr/local/share/stall/img/bg_wave2.png");
+	waves[2].bg = load_pic("/usr/local/share/stall/img/bg_wave3.png");
+	waves[3].bg = load_pic("/usr/local/share/stall/img/bg_wave4.png");
+	waves[4].bg = load_pic("/usr/local/share/stall/img/bg_wave5.png");
 
-	waves[0].enemy = load_pic("img/enemies1.png");
-	waves[1].enemy = load_pic_alpha("img/enemies2.png");
+	waves[0].enemy = load_pic("/usr/local/share/stall/img/enemies1.png");
+	waves[1].enemy = load_pic_alpha("/usr/local/share/stall/img/enemies2.png");
 
 	/* load boss bgs */
-	sur_boss1 = load_pic("img/bg_boss1.png");
+	sur_boss1 = load_pic("/usr/local/share/stall/img/bg_boss1.png");
 
 	/* load array of bonuses */
-	sur_bonus[0] = load_pic("img/bonus_armor_breaker.png");
-	sur_bonus[1] = load_pic("img/bonus_triple_shot.png");
-	sur_bonus[2] = load_pic_alpha("img/bonus_defshield.png");
-	sur_bonus[3] = load_pic("img/bonus_random_bomb.png");
-	sur_bonus[4] = load_pic("img/bonus_ram.png");
-	sur_bonus[5] = load_pic("img/bonus_missiles.png");
-	sur_bonus[6] = load_pic("img/bonus_acc.png");
+	sur_bonus[0] = load_pic("/usr/local/share/stall/img/bonus_armor_breaker.png");
+	sur_bonus[1] = load_pic("/usr/local/share/stall/img/bonus_triple_shot.png");
+	sur_bonus[2] = load_pic_alpha("/usr/local/share/stall/img/bonus_defshield.png");
+	sur_bonus[3] = load_pic("/usr/local/share/stall/img/bonus_random_bomb.png");
+	sur_bonus[4] = load_pic("/usr/local/share/stall/img/bonus_ram.png");
+	sur_bonus[5] = load_pic("/usr/local/share/stall/img/bonus_missiles.png");
+	sur_bonus[6] = load_pic("/usr/local/share/stall/img/bonus_acc.png");
 
-	sur_bonus_ram[0] = load_pic("img/bonus_ram_00.png");
-	sur_bonus_ram[1] = load_pic("img/bonus_ram_01.png");
-	sur_bonus_ram[2] = load_pic("img/bonus_ram_02.png");
+	sur_bonus_ram[0] = load_pic("/usr/local/share/stall/img/bonus_ram_00.png");
+	sur_bonus_ram[1] = load_pic("/usr/local/share/stall/img/bonus_ram_01.png");
+	sur_bonus_ram[2] = load_pic("/usr/local/share/stall/img/bonus_ram_02.png");
 
 	/* bonuses on_player */
-	bonus_defshield.img = load_pic("img/defshield1.png");
+	bonus_defshield.img = load_pic("/usr/local/share/stall/img/defshield1.png");
 
-//	sur_test_anim = load_pic("img/test_animation.png");
-//	sur_blades = load_pic("img/strip_saucer_blades.png");
+//	sur_test_anim = load_pic("/usr/local/share/stall/img/test_animation.png");
+//	sur_blades = load_pic("/usr/local/share/stall/img/strip_saucer_blades.png");
 }
 
 
@@ -185,7 +184,6 @@ void render_background()
 
 void render_menu()
 {
-	char str[20];
 	unsigned int color_green = 0x00FF00FF; 
 	unsigned int color_white = 0xFFFFFFFF;
 	unsigned int color;
@@ -219,7 +217,7 @@ void render_logo()
 void render_label_wave()
 {	
 	SDL_Rect rect;
-	SDL_Surface *sur_wave;
+	SDL_Surface *sur_wave = NULL;
 
 	rect.x = GAME_WIDTH/2 - 150;
 	rect.y = GAME_HEIGHT/2 - 40;
@@ -294,7 +292,6 @@ void render_shield_energy()
 /* render time and bar remained till the end of the wave */
 void render_wave_time()
 {
-	char str[20];
 	Uint32 time_passed, one_percent, percents_passed;
 	Uint32 color = 0x00FF00FF; /* green, 0xRRGGBBAA */
 
@@ -534,7 +531,6 @@ void render_enemies()
 void render_bullets()
 {
 	int i;
-	int x,y;
 	SDL_Rect src, dest;
 	unsigned int diff; 
 
